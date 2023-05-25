@@ -33,9 +33,15 @@ func (l *List[V]) AddAll(vList []V) *List[V] {
 	return l
 }
 
-func (l *List[V]) ForEach(fn func(element V, index int)) {
+func (l *List[V]) ForEach(fn func(element V, index int), shouldBreak, shouldContinue bool) {
 	for i, v := range l.elements {
 		fn(v, i)
+		if shouldBreak {
+			break
+		}
+		if shouldContinue {
+			continue
+		}
 	}
 }
 

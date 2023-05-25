@@ -1,3 +1,3 @@
 ```cli
-go get github.com/danielcomboni/collections-in-go@v0.0.5
+go get github.com/danielcomboni/collections-in-go@v0.0.6
 ```
