@@ -33,15 +33,42 @@ func (l *List[V]) AddAll(vList []V) *List[V] {
 	return l
 }
 
-func (l *List[V]) ForEachWithBreakOrContinue(shouldBreak, shouldContinue bool, fn func(element V, index int)) {
+type ForEachConditions[V any] struct {
+	PriorBreakCondition    func(element V, index int) bool
+	PriorContinueCondition func(element V, index int) bool
+	AfterBreakCondition    func(element V, index int) bool
+	AfterContinueCondition func(element V, index int) bool
+}
+
+func (l *List[V]) ForEachWithBreakOrContinue(conditions ForEachConditions[V], callback func(element V, index int)) {
 	for i, v := range l.elements {
-		fn(v, i)
-		if shouldBreak {
-			break
+
+		if conditions.PriorBreakCondition != nil {
+			if conditions.PriorBreakCondition(v, i) {
+				break
+			}
 		}
-		if shouldContinue {
-			continue
+
+		if conditions.PriorContinueCondition != nil {
+			if conditions.PriorContinueCondition(v, i) {
+				continue
+			}
 		}
+
+		callback(v, i)
+
+		if conditions.AfterBreakCondition != nil {
+			if conditions.AfterBreakCondition(v, i) {
+				break
+			}
+		}
+
+		if conditions.AfterContinueCondition != nil {
+			if conditions.AfterContinueCondition(v, i) {
+				continue
+			}
+		}
+
 	}
 }
 
