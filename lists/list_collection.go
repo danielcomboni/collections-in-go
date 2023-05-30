@@ -128,6 +128,7 @@ func (l *List[V]) Remove(index int) *List[V] {
 	return l
 }
 
+// ToSlice converts the list back to core slice
 func (l *List[V]) ToSlice() []V {
 	return l.elements
 }
