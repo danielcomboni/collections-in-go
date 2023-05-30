@@ -127,3 +127,7 @@ func (l *List[V]) Remove(index int) *List[V] {
 	l.elements = append(l.elements[:index], l.elements[index+1:]...)
 	return l
 }
+
+func (l *List[V]) ToSlice() []V {
+	return l.elements
+}
